@@ -1,4 +1,4 @@
----
+--
 
 ## 🖥 Terminal Commands
 
@@ -19,4 +19,5 @@
 
 Open `script.js` and edit the `COMMANDS` object to update your personal info,
 add new commands, or change any output text.
+
 
