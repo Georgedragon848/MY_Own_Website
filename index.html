@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="George Jojo — Cybersecurity Portfolio. Bug Hunter, Penetration Tester, B.Tech CSE Student." />
+  <title>George Jojo | Cybersecurity Portfolio</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════
+       LAYER 1: MATRIX INTRO CANVAS
+  ═══════════════════════════════════════════════ -->
+  <canvas id="matrix-canvas"></canvas>
+
+  <!-- ═══════════════════════════════════════════════
+       LAYER 2: TERMINAL INTERFACE
+  ═══════════════════════════════════════════════ -->
+  <div id="terminal-wrapper">
+    <div id="terminal-header">
+      <span class="dot dot-red"></span>
+      <span class="dot dot-yellow"></span>
+      <span class="dot dot-green"></span>
+      <span class="terminal-title">root@george — bash — 80×24</span>
+    </div>
+
+    <div id="terminal-body">
+      <!-- Boot sequence injected here by JS -->
+      <div id="output-area"></div>
+
+      <!-- Input line -->
+      <div id="input-line">
+        <span class="prompt">root@george:~$&nbsp;</span>
+        <span id="typed-text"></span>
+        <span id="cursor">█</span>
+        <input id="cmd-input" type="text" autocomplete="off" spellcheck="false" autofocus aria-label="Terminal input" />
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

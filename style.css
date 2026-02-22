@@ -1,0 +1,266 @@
+/* ═══════════════════════════════════════════════════════
+   GEORGE JOJO — CYBERSECURITY PORTFOLIO
+   style.css | Pure CSS | Hacker Dark Theme
+═══════════════════════════════════════════════════════ */
+
+/* ───────── Reset & Root Variables ───────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --green:      #00ff00;
+  --green-dim:  #00cc00;
+  --green-dark: #003300;
+  --bg:         #000000;
+  --glow:       0 0 6px #00ff00, 0 0 12px #00ff00;
+  --glow-soft:  0 0 4px #00cc00;
+  --font-mono:  'Courier New', Courier, monospace;
+}
+
+/* ───────── Base ───────── */
+html, body {
+  width: 100%;
+  height: 100%;
+  background: var(--bg);
+  color: var(--green);
+  font-family: var(--font-mono);
+  overflow: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════
+   MATRIX CANVAS
+═══════════════════════════════════════════════════════ */
+#matrix-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  display: block;
+  /* Fade-out triggered by JS adding .fading class */
+  opacity: 1;
+  transition: opacity 1.2s ease-out;
+}
+
+#matrix-canvas.fading {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════
+   TERMINAL WRAPPER
+═══════════════════════════════════════════════════════ */
+#terminal-wrapper {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+
+  /* Hidden until matrix fades */
+  opacity: 0;
+  transition: opacity 0.8s ease-in 0.6s; /* delay so canvas fades first */
+}
+
+#terminal-wrapper.visible {
+  opacity: 1;
+}
+
+/* ───────── Fake macOS-style top bar ───────── */
+#terminal-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: #111111;
+  border-bottom: 1px solid #1a3a1a;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.dot {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.dot-red    { background: #ff5f57; }
+.dot-yellow { background: #febc2e; }
+.dot-green  { background: #28c840; }
+
+.terminal-title {
+  margin-left: 12px;
+  font-size: 0.75rem;
+  color: #555;
+  letter-spacing: 0.05em;
+}
+
+/* ───────── Scrollable body ───────── */
+#terminal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 18px 22px 100px 22px;
+  scroll-behavior: smooth;
+
+  /* Hide scrollbar but keep scrolling */
+  scrollbar-width: none;         /* Firefox */
+  -ms-overflow-style: none;      /* IE/Edge */
+}
+#terminal-body::-webkit-scrollbar {
+  display: none;                 /* Chrome/Safari */
+}
+
+/* ═══════════════════════════════════════════════════════
+   OUTPUT AREA
+═══════════════════════════════════════════════════════ */
+#output-area {
+  white-space: pre-wrap;
+  line-height: 1.65;
+  font-size: 0.95rem;
+}
+
+/* Each command block wrapper */
+.cmd-block {
+  margin-bottom: 18px;
+}
+
+/* The echoed command line */
+.cmd-echo {
+  color: var(--green);
+  text-shadow: var(--glow-soft);
+  margin-bottom: 6px;
+}
+
+/* Response text — animated in */
+.cmd-response {
+  color: var(--green-dim);
+  text-shadow: var(--glow-soft);
+  overflow: hidden;
+}
+
+/* Error text */
+.cmd-error {
+  color: #ff4444;
+  text-shadow: 0 0 6px #ff0000;
+}
+
+/* Special highlighted lines */
+.highlight {
+  color: var(--green);
+  text-shadow: var(--glow);
+  font-weight: bold;
+}
+
+/* Section headers inside responses */
+.section-header {
+  color: var(--green);
+  text-shadow: var(--glow);
+  border-bottom: 1px solid var(--green-dark);
+  margin-bottom: 4px;
+  display: block;
+  letter-spacing: 0.08em;
+}
+
+/* Help table alignment */
+.help-row {
+  display: flex;
+  gap: 0;
+}
+.help-cmd {
+  display: inline-block;
+  min-width: 120px;
+  color: var(--green);
+  text-shadow: var(--glow-soft);
+}
+.help-desc {
+  color: #00aa00;
+}
+
+/* ═══════════════════════════════════════════════════════
+   INPUT LINE
+═══════════════════════════════════════════════════════ */
+#input-line {
+  display: flex;
+  align-items: center;
+  font-size: 0.95rem;
+  padding: 4px 0;
+  flex-wrap: nowrap;
+  position: relative;
+}
+
+.prompt {
+  color: var(--green);
+  text-shadow: var(--glow);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* The visible "typed" span mirrors the hidden input */
+#typed-text {
+  color: var(--green);
+  text-shadow: var(--glow-soft);
+  white-space: pre;
+  letter-spacing: 0.03em;
+}
+
+/* Blinking block cursor */
+#cursor {
+  color: var(--green);
+  text-shadow: var(--glow);
+  animation: blink 1s step-start infinite;
+  line-height: 1;
+  margin-left: 1px;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* Real input is invisible — sits over the entire terminal body */
+#cmd-input {
+  position: fixed;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: transparent;
+  caret-color: transparent;
+  z-index: 20;
+}
+
+/* ═══════════════════════════════════════════════════════
+   BOOT SEQUENCE STYLING
+═══════════════════════════════════════════════════════ */
+.boot-line {
+  display: block;
+  color: var(--green-dim);
+  letter-spacing: 0.04em;
+}
+
+.boot-banner {
+  color: var(--green);
+  text-shadow: var(--glow);
+}
+
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════ */
+@media (max-width: 600px) {
+  #terminal-body {
+    padding: 12px 12px 80px 12px;
+    font-size: 0.82rem;
+  }
+  #input-line {
+    font-size: 0.82rem;
+  }
+  #output-area {
+    font-size: 0.82rem;
+  }
+}
